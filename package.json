@@ -1,0 +1,19 @@
+{
+  "name": "gtrs_bot",
+  "version": "1.0.0",
+  "description": "Discord bot that provides info for a gametracker.rs server",
+  "main": "main.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.1",
+    "xmldom": "^0.4.0",
+    "xpath": "0.0.32"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "arijan",
+  "license": "ISC"
+}
