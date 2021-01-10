@@ -1,9 +1,12 @@
 {
     "NO_PERMISSION": "You don't have permission to do that.",
-    "MYPREFIXIS": "My prefix is ",
+    "MYPREFIX": "My prefix is ",
     "STOPPING": "Stopping...",
     "CMD_TIME": "time",
     "NOTFOUND": "There was an error, check the spelling!",
     "PLAYER": "Player",
-    "TIME": "Time"
+    "PLAYERSONLINE": "Players online",
+    "TIME": "Time",
+    "SCORE": "Score",
+    "LASTSEEN": "Last seen"
 }
