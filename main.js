@@ -41,15 +41,18 @@ const main = async () => {
 				
 				let timeNodes = xpath.select('//*[@id="main"]/div[1]/ul[2]/li[2]/dl/dd[2]/span', doc)
 				let lastSeenNodes = xpath.select('//*[@id="main"]/div[1]/ul[2]/li[1]/dl/dd[3]/span', doc)
+				let killsNodes = xpath.select('//*[@id="main"]/div[1]/ul[2]/li[2]/dl/dd[1]/span', doc)
 
 				let time = timeNodes[0].firstChild.data
 				let lastSeen = lastSeenNodes[0].firstChild.data
+				let kills = killsNodes[0].firstChild.data
 
 				let responseEmbed = new Discord.MessageEmbed()
 					.setColor(8311585)
 					.addFields(
 						{name: translation.PLAYER, value: playerName},
 						{name: translation.TIME, value: time}, 
+						{name: translation.KILLS, value: kills},
 						{name: translation.LASTSEEN, value: lastSeen},
 					)
 
@@ -68,7 +71,7 @@ const main = async () => {
 			}
 		}
 
-		switch(msg.content.replace(config.prefix, ''))
+		switch(msg.content.replace(config.prefix, '').replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">"))
 		{
 
 			case 'banner':
