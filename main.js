@@ -5,6 +5,8 @@ const axios = require('axios').default
 const xpath = require('xpath'), dom = require('xmldom').DOMParser
 const client = new Discord.Client()
 
+var ip = translation.NOIP
+
 const main = async () => {
 
 	client.on('ready', () => {
@@ -15,7 +17,7 @@ const main = async () => {
 
 		if (msg.author.bot || msg.channel.type != 'text') return 
 
-		if (msg.mentions.has(client.user))
+		if (msg.mentions.has(client.user) && msg.content != '@everyone' && msg.content != '@here')
 		{
 			msg.channel.send(translation.MYPREFIX + "'" + config.prefix + "'")
 		}
@@ -24,13 +26,46 @@ const main = async () => {
 
 		console.log(msg.content)
 		
+        if(msg.content == config.prefix + 'stop'){
+                if(msg.author.id == config.owner)
+                {
+                    await msg.channel.send(translation.STOPPING)
+                    client.destroy()
+                    return
+                }
+                else{
+                    await msg.channel.send(translation.NO_PERMISSION)
+                    return
+                }
+        }
+
+        if (msg.content.startsWith(config.prefix + 'ip')){
+            if(msg.content == `${config.prefix}ip`) {
+                await msg.channel.send(ip)
+                return
+            }
+            else{
+                if(msg.member.hasPermission('MANAGE_GUILD') || msg.author.id == config.owner){
+                    ip = msg.content.replace(config.prefix + 'ip ', '')
+                    await msg.channel.send(translation.IPCHANGEDTO + ip)
+                    return
+                }
+            }
+        }
+
+        if (ip == 'none')
+        {
+            await msg.channel.send(translation.NOIP)
+            return
+        }
+
 		if (msg.content.startsWith(config.prefix + translation.CMD_TIME + ' '))
 		{
 			playerName = msg.content.replace(config.prefix + translation.CMD_TIME + ' ', '')
 
 			try{
-				let res = await axios.get(`https://gametracker.rs/player/${config.ip}/${encodeURI(playerName)}`)
-				console.log(`https://gametracker.rs/player/${config.ip}/${encodeURI(playerName)}`)
+				let res = await axios.get(`https://gametracker.rs/player/${ip}/${encodeURI(playerName)}`)
+				console.log(`https://gametracker.rs/player/${ip}/${encodeURI(playerName)}`)
 
 				let doc = new dom({
 				    locator: {},
@@ -75,14 +110,14 @@ const main = async () => {
 		{
 
 			case 'banner':
-				bannerMsg = `https://banners.gametracker.rs/${config.ip}/big/red/banner.jpg?${Date.now()}`
+				bannerMsg = `https://banners.gametracker.rs/${ip}/big/red/banner.jpg?${Date.now()}`
 				await msg.channel.send(bannerMsg)
 				break
 
 			case 'online':
 				try{
-					let res = await axios.get(`http://api.gametracker.rs/demo/json/server_info/${config.ip}`)
-					responseData = res.data
+					let res = await axios.get(`http://api.gametracker.rs/demo/json/server_info/${ip}`)
+					let responseData = res.data
 					console.log(responseData.players_list)
 					players = responseData.players_list
 
@@ -106,27 +141,13 @@ const main = async () => {
 				}
 				catch(err){
 					console.error(err)
-
 					let response = new Discord.MessageEmbed()
 					.setColor(13632027)
 					.setDescription(translation.ERROR)
 
 					await msg.channel.send(response)
-
 				}
 				finally { break }
-
-			case 'stop':
-				if(msg.member.roles.cache.some(role => role.name === "gt.rs bot control"))
-				{
-					await msg.channel.send(translation.STOPPING)
-					client.destroy()
-					break
-				}
-				else{
-					await msg.channel.send(translation.NO_PERMISSION)
-					break
-				}
 		}
 
 	})
