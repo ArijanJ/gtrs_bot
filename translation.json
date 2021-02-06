@@ -1,5 +1,7 @@
 {
     "NO_PERMISSION": "You don't have permission to do that.",
+    "NOIP": "There is no IP configured.",
+    "IPCHANGEDTO": "IP changed to ",
     "MYPREFIX": "My prefix is ",
     "STOPPING": "Stopping...",
     "CMD_TIME": "time",
