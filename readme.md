@@ -1,8 +1,8 @@
 This is a little node.js discord bot that adds some functionality from gametracker.rs
-You can translate most of the strings in translation.json, I don't know why 'ip' is in the json file,
-it shouldn't be but it is, so whatever.
+You can translate most of the strings in translation.json.
 
-Current commands are 'banner', 'time' and 'online'.
-Banner returns the gametracker.rs banner of a server currently, and you can use 'time [player]' to check the
-playtime of a player.
-Online returns a list of currently online players.
+Commands:
+ip (ip) - Returns or changes the ip the bot is bound to
+online - Returns a list of online players
+time [player name] - Returns time, kills and last seen of player
+banner - Returns a banner of the server from gametracker.rs
