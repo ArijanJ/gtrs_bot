@@ -1,0 +1,14 @@
+{
+    "NO_PERMISSION": "Nemate pristup.",
+    "NOIP": "Nema konfigurisana IP adresa.",
+    "IPCHANGEDTO": "IP promenut u ",
+    "MYPREFIX": "Moji prefix je ",
+    "STOPPING": "Stopiram...",
+    "CMD_TIME": "sati",
+    "NOTFOUND": "Bila je greska, provjerite lepo.",
+    "PLAYER": "Igrac",
+    "PLAYERSONLINE": "Online igraci",
+    "TIME": "Sati",
+    "LASTSEEN": "Last seen",
+    "KILLS": "Kills"
+}

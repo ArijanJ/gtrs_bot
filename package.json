@@ -5,6 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
     "discord.js": "^12.5.1",
     "xmldom": "^0.4.0",
     "xpath": "0.0.32"
