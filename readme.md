@@ -17,6 +17,12 @@ Returns or changes the ip the bot is bound to.
 Returns a list of online players.
 
 
+### top15
+
+
+Returns a list of top15 players.
+
+
 ### time [player name] 
 
 
