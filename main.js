@@ -44,7 +44,7 @@ const main = async () => {
 	client.on('message', async(msg) => {
 
 		if (msg.author.bot || msg.channel.type != 'text') return
-		if (msg.mentions.has(client.user) && msg.content != '@everyone' && msg.content != '@here')
+		if (msg.mentions.has(client.user) && !msg.content.includes('@everyone') && !msg.content.includes('@here'))
 		{
 			msg.channel.send(translation.MYPREFIX + "'" + config.prefix + "'")
 		}
@@ -124,7 +124,7 @@ const main = async () => {
 
 				}
 				catch(err){
-					console.error(err)
+					console.error("Error occured")
 					let response = new Discord.MessageEmbed()
 					.setColor(13632027)
 					.setDescription(translation.ERROR)
@@ -145,7 +145,7 @@ const main = async () => {
 						locator: {},
 						errorHandler: { warning: function (w) { }, 
 						error: function (e) { }, 
-						fatalError: function (e) { console.error(e) } }
+						fatalError: function (e) { console.log("Error on handling DOM") } }
 					}).parseFromString(res.data)
 					
 					let timeNodes = xpath.select('//*[@id="main"]/div[1]/ul[2]/li[2]/dl/dd[2]/span', doc)
@@ -169,7 +169,7 @@ const main = async () => {
 				}
 
 				catch(err){
-					console.error(err)
+					console.error("Error occured")
 
 					let responseEmbed = new Discord.MessageEmbed()
 					.setColor(13632027)
