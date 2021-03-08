@@ -10,8 +10,20 @@ const client = new Discord.Client()
 
 var ipMap = {} 
 
+const colors = {
+    GREEN: 8311585,
+    RED: 13632027
+}
+
 async function writeCache(){
 	fs.writeFileSync('cachedIPs.json', JSON.stringify(ipMap, null, 4))
+}
+
+async function sendEmbed(channel, color, message){
+    let responseEmbed = new Discord.MessageEmbed()
+        .setColor(color)
+        .setDescription(message)
+    await channel.send(responseEmbed)
 }
 
 const main = async () => {
@@ -46,7 +58,7 @@ const main = async () => {
 		if (msg.author.bot || msg.channel.type != 'text') return
 		if (msg.mentions.has(client.user) && !msg.content.includes('@everyone') && !msg.content.includes('@here'))
 		{
-			msg.channel.send(translation.MYPREFIX + "'" + config.prefix + "'")
+            sendEmbed(msg.channel, colors.GREEN, translation.MYPREFIX + "'" + config.prefix + "'")
 		}
 		
 		if (!msg.content.startsWith(config.prefix)) return
@@ -59,12 +71,12 @@ const main = async () => {
         if(command == 'stop'){
                 if(msg.author.id == config.owner)
                 {
-                    await msg.channel.send(translation.STOPPING)
+                    await sendEmbed(msg.channel, colors.RED, translation.STOPPING)
                     client.destroy()
                     return
                 }
                 else{
-                    await msg.channel.send(translation.NO_PERMISSION)
+                    await sendEmbed(msg.channel, colors.RED, translation.NOPERMISSION)
                     return
                 }
         }
@@ -72,13 +84,13 @@ const main = async () => {
 		
         if (command == 'ip'){
 			if(args.length == 0) {
-				await msg.channel.send(ipMap[msg.guild.id])
+                await sendEmbed(msg.channel, colors.GREEN, `IP: ${ipMap[msg.guild.id]}`)
                 return
             }
             else{
 				if(msg.member.hasPermission('MANAGE_GUILD') || msg.author.id == config.owner){
 					ipMap[msg.guild.id] = args[0]
-                    await msg.channel.send(translation.IPCHANGEDTO + ipMap[msg.guild.id])
+                    await sendEmbed(msg.channel, colors.GREEN, translation.IPCHANGEDTO + ipMap[msg.guild.id])
 					writeCache()
                     return
                 }
@@ -87,7 +99,7 @@ const main = async () => {
 		
 		if (ipMap[msg.guild.id] == translation.NOIP)
 		{
-			await msg.channel.send(translation.NOIP)
+			await sendEmbed(msg.channel, colors.RED, translation.NOIP)
 			return
 		}
 
@@ -95,7 +107,8 @@ const main = async () => {
 		{
 
 			case 'banner':
-				bannerMsg = `https://banners.gametracker.rs/${ipMap[msg.guild.id]}/big/red/banner.jpg?${Date.now()}`
+                let color = args[0] || 'red'
+				bannerMsg = `https://banners.gametracker.rs/${ipMap[msg.guild.id]}/big/${color}/banner.jpg?${Date.now()}`
 				await msg.channel.send(bannerMsg)
 				break
 
@@ -125,11 +138,7 @@ const main = async () => {
 				}
 				catch(err){
 					console.error("Error occured")
-					let response = new Discord.MessageEmbed()
-					.setColor(13632027)
-					.setDescription(translation.ERROR)
-
-					await msg.channel.send(response)
+                    await sendEmbed(msg.channel, colors.RED, translation.ERROR)
 				}
 				finally { break }
 
@@ -170,13 +179,7 @@ const main = async () => {
 
 				catch(err){
 					console.error("Error occured")
-
-					let responseEmbed = new Discord.MessageEmbed()
-					.setColor(13632027)
-					.setDescription(translation.NOTFOUND)
-
-					await msg.channel.send(responseEmbed)
-
+                    await sendEmbed(msg.channel, colors.RED, translation.NOTFOUND)
 					return
 				}
 
@@ -216,15 +219,6 @@ const main = async () => {
 							index++
 						})
 
-						/*for(var i = 0; i < 15; i++){
-							console.log(nameNodes[i].firstChild.data)
-							embedTimes += `${timeNodes[i].firstChild.data}\n`
-							if(nameNodes[i].firstChild.data == 'profile') {
-								realI--
-							}
-							embedNames += `${i + 1}. ${nameNodes[i].firstChild.data}  \n`
-						}*/
-
 						responseEmbed.addField(translation.PLAYER, embedNames, true)
 						responseEmbed.addField(translation.TIME, embedTimes, true)
 
@@ -233,13 +227,7 @@ const main = async () => {
 				}
 				catch(err){
 					console.error(err)
-
-					let responseEmbed = new Discord.MessageEmbed()
-					.setColor(13632027)
-					.setDescription("Error ;(")
-
-					await msg.channel.send(responseEmbed)
-
+                    await sendEmbed(msg.channel, colors.RED, translation.ERROR)
 					return
 				}
 
