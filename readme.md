@@ -29,7 +29,7 @@ Returns a list of top15 players.
 Returns time, kills and last seen of player.
 
 
-### banner 
+### banner (color)
 
 
-Returns a banner of the server from gametracker.rs.
+Returns a banner of the server (or a list of colors) from gametracker.rs.
