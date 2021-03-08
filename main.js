@@ -15,6 +15,8 @@ const colors = {
     RED: 13632027
 }
 
+const bannerColors = ["red", "blue", "brown", "darkgray", "gray", "green", "purple"]
+
 async function writeCache(){
 	fs.writeFileSync('cachedIPs.json', JSON.stringify(ipMap, null, 4))
 }
@@ -80,7 +82,6 @@ const main = async () => {
                     return
                 }
         }
-	
 		
         if (command == 'ip'){
 			if(args.length == 0) {
@@ -108,6 +109,17 @@ const main = async () => {
 
 			case 'banner':
                 let color = args[0] || 'red'
+                if(!bannerColors.includes(color) && args.length > 0){
+                    let responseEmbed = new Discord.MessageEmbed()
+                    .setColor(colors.RED)
+                    let description = translation.COLORSAVAILABLE
+                    bannerColors.forEach(color => {
+                        description+= `\n${color}`
+                    })
+                    responseEmbed.setDescription(description)
+                    await msg.channel.send(responseEmbed)
+                    break
+                }
 				bannerMsg = `https://banners.gametracker.rs/${ipMap[msg.guild.id]}/big/${color}/banner.jpg?${Date.now()}`
 				await msg.channel.send(bannerMsg)
 				break
