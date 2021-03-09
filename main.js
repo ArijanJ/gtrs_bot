@@ -21,6 +21,14 @@ async function writeCache(){
 	fs.writeFileSync('cachedIPs.json', JSON.stringify(ipMap, null, 4))
 }
 
+function replaceCharacters(str){
+    return str.replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#96;/g, "\\`")
+    .replace(/&#39;/g, "'")
+}
+
 async function sendEmbed(channel, color, message){
     let responseEmbed = new Discord.MessageEmbed()
         .setColor(color)
@@ -139,7 +147,7 @@ const main = async () => {
 					let tempDesc = '**' + translation.PLAYERSONLINE + `: ${playersNum}/${playersMax}**`
 
 					players.forEach(player => {
-						let player_name = player.player.name.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+						let player_name = replaceCharacters(player.player.name)
 						tempDesc = tempDesc + '\n' + player_name
 					})
 
