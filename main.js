@@ -28,6 +28,7 @@ function replaceCharacters(str){
     .replace(/&#96;/g, "\\`")
     .replace(/&#39;/g, "'")
     .replace(/_/g, "\\_")
+    .replace(/\*/g, "\\*")
 }
 
 async function sendEmbed(channel, color, message){
@@ -230,7 +231,7 @@ const main = async () => {
 						let index = 0
 
 						nameNodes.forEach(node => {
-							let name = node.firstChild.data
+							let name = replaceCharacters(node.firstChild.data)
 							let time = timeNodes[index].firstChild.data
 
 							if(name == 'profile' || index - 1 == 14) {return}
