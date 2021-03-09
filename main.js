@@ -27,7 +27,7 @@ function replaceCharacters(str){
     .replace(/&gt;/g, ">")
     .replace(/&#96;/g, "\\`")
     .replace(/&#39;/g, "'")
-    .replace("_", "\\_")
+    .replace(/&#95;/g, "\\_")
 }
 
 async function sendEmbed(channel, color, message){
